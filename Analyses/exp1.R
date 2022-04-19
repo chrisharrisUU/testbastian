@@ -31,9 +31,3 @@ df %>%
   group_by(cond) %>%
   summarize(M  = mean(var),
             SD = sd(var))
-
-df %>%
-  mutate(cond = as.factor(cond)) %>%
-  as.data.frame() %$%
-  ttestBF(var, mu = .7) %>%
-  printBF
