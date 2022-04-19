@@ -5,10 +5,10 @@ if (!require(goallabr)) {
   if (!require(devtools)) {install.packages("devtools"); library(devtools)}
   install_github("chrisharrisUU/goallabr")
 }
-# needs(BayesFactor, dplyr, ggplot2, ggsci, goallabr,
-#       gridExtra, haven, Hmisc, here, lme4, lmerTest,
-#       magrittr, tidyr, papaja, purrr, svglite)
-# prioritize(dplyr)
+needs(BayesFactor, dplyr, ggplot2, ggsci, goallabr,
+      gridExtra, haven, Hmisc, here, lme4, lmerTest,
+      magrittr, tidyr, papaja, purrr, svglite)
+prioritize(dplyr)
 
 # Color palette for graphs
 pal <- ggsci::pal_uchicago()(5)[c(3, 5, 1)]
@@ -19,3 +19,21 @@ pal <- ggsci::pal_uchicago()(5)[c(3, 5, 1)]
 
 # source(here("Auxiliary/exp1_import.r"))
 rm(as.data.frame.avector, `[.avector`)
+
+# Test stuff --------------------------------------------------------------
+n <- 100
+
+df <- tibble(id = 1:n) %>%
+  mutate(cond = rbinom(n(), 1, .5),
+         var  = rnorm(n(), .5))
+
+df %>%
+  group_by(cond) %>%
+  summarize(M  = mean(var),
+            SD = sd(var))
+
+df %>%
+  mutate(cond = as.factor(cond)) %>%
+  as.data.frame() %$%
+  ttestBF(var, mu = .5) %>%
+  printBF
