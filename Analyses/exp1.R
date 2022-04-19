@@ -35,5 +35,5 @@ df %>%
 df %>%
   mutate(cond = as.factor(cond)) %>%
   as.data.frame() %$%
-  ttestBF(var, mu = .5) %>%
+  ttestBF(var, mu = .7) %>%
   printBF
